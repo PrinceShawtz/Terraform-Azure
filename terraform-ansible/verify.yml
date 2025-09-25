@@ -1,0 +1,40 @@
+---
+- name: Verify VM configuration
+  hosts: azure_vms
+  become: yes
+  tasks:
+
+    - name: Check installed packages
+      command: dpkg -l
+      register: pkg_list
+
+    - name: Show filtered package list (nginx, git, htop, curl)
+      debug:
+        msg: "{{ pkg_list.stdout_lines | select('search', 'nginx|git|htop|curl') | list }}"
+
+    - name: Check if user 'eseroghene' exists
+      command: id eseroghene
+      register: user_check
+      ignore_errors: yes
+
+    - name: Show user details
+      debug:
+        msg: "{{ user_check.stdout if user_check.rc == 0 else 'User not found' }}"
+
+    - name: Check home directory
+      stat:
+        path: /home/eseroghene
+      register: homedir_check
+
+    - name: Show home directory status
+      debug:
+        msg: "Home directory exists: {{ homedir_check.stat.exists }}"
+
+    - name: Confirm bash shell
+      command: grep eseroghene /etc/passwd
+      register: shell_check
+      ignore_errors: yes
+
+    - name: Show shell info
+      debug:
+        msg: "{{ shell_check.stdout if shell_check.rc == 0 else 'Shell not found' }}"
