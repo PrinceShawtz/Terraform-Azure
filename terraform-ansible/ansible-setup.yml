@@ -1,6 +1,6 @@
 ---
 - name: Configure VM with required packages and user
-  hosts: web
+  hosts: azure_vms
   become: yes
   tasks:
 
