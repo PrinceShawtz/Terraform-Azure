@@ -1,6 +1,16 @@
-variable "resource_group_name" { type = string }
-variable "location" { type = string }
-variable "name" { type = string }
-variable "security_rules" { type = list(map(any)) }
-variable "tags" { type = map(string) }
+variable "resource_group_name" { 
+  type = string 
+}
+variable "location" { 
+  type = string 
+}
+variable "name" { 
+  type = string 
+}
+variable "security_rules" { 
+  type = list(map(any)) 
+}
+variable "tags" { 
+  type = map(string) 
+}
 
